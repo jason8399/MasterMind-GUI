@@ -1,43 +1,26 @@
 package jp;
 
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by JasonPan on 4/25/15.
- * MASTER MIND Computer to guess what player think.
+ * Created by JasonPan on 4/30/15.
+ * MASTER MIND Player to guess what computer think.
  */
-public class ComputerRound extends JPanel {
-    private LabelPuzzle labelPanel;
+public class PlayerRound extends JPanel {
     private SubmitPanel subPanel;
     private ConfirmPanel conPanel;
     private JTextField finalMessage;
 
-    public ComputerRound() {
+    PlayerRound(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        labelPanel = new LabelPuzzle();
-        this.add(labelPanel);
-        subPanel = new SubmitPanel();
-        this.add(subPanel);
-        this.add(new JSeparator(JSeparator.HORIZONTAL));
         conPanel = new ConfirmPanel();
         this.add(conPanel);
+        subPanel = new SubmitPanel();
+        this.add(subPanel);
         finalMessage = new JTextField(30);
         finalMessage.setEditable(false);
         this.add(finalMessage);
-    }
-
-    class LabelPuzzle extends JPanel {
-        JLabel puzzleLabel;
-        JTextField puzzleField;
-
-        LabelPuzzle() {
-            this.setLayout(new FlowLayout());
-            this.add(puzzleLabel = new JLabel("Puzzle"));
-            this.add(puzzleField = new JTextField(30));
-            puzzleField.setEditable(false);
-        }
     }
 
     class SubmitPanel extends JPanel {
@@ -67,42 +50,42 @@ public class ComputerRound extends JPanel {
         }
     }
 
-    class ConfirmPanel extends JPanel{
+    class ConfirmPanel extends JPanel {
         Trial[] trials;
 
-        ConfirmPanel(){
+        ConfirmPanel() {
             this.setLayout(new GridLayout(0, 1));
             this.trials = new Trial[10];
-            for(int i = 0; i < 10; i++){
+            for (int i = 0; i < 10; i++) {
                 add(this.trials[i] = new Trial(i + 1));
             }
         }
 
-        class Trial extends JPanel{
+        class Trial extends JPanel {
             JLabel trialLabel;
             JTextField field;
-            JButton blackPin;
+            JLabel blackPin;
             JTextField bkField;
-            JButton whitePin;
+            JLabel whitePin;
             JTextField whField;
 
-            Trial(){
+            Trial() {
             }
 
-            Trial(int num){
-                setLayout(new GridLayout(1, 0));
+            Trial(int num) {
+                setLayout(new FlowLayout());
                 this.add(trialLabel = new JLabel("Trial " + num));
-                this.add(field = new JTextField());
-                this.add(blackPin = new JButton("BK"));
-                this.add(bkField = new JTextField("-1"));
-                this.add(whitePin = new JButton("WH"));
-                this.add(whField = new JTextField("-1"));
+                this.add(field = new JTextField(14));
+                this.add(blackPin = new JLabel("BK"));
+                this.add(bkField = new JTextField(3));
+                this.add(whitePin = new JLabel("WH"));
+                this.add(whField = new JTextField(3));
                 field.setEditable(false);
                 bkField.setEditable(false);
                 whField.setEditable(false);
             }
 
-            void setButtonEnabled(boolean enabled){
+            void setButtonEnabled(boolean enabled) {
                 blackPin.setEnabled(enabled);
                 whitePin.setEnabled(enabled);
             }
