@@ -6,7 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        JFrame a = new ComputerRound();
+        JFrame a = new JFrame();
+        a.add(new ComputerRound());
         a.pack();
         a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         a.setVisible(true);

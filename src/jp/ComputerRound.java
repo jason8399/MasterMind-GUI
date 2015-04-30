@@ -1,6 +1,5 @@
 package jp;
 
-import com.sun.corba.se.impl.copyobject.FallbackObjectCopierImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,16 +8,23 @@ import java.awt.*;
  * Created by JasonPan on 4/25/15.
  * MASTER MIND Computer to guess what palyer think.
  */
-public class ComputerRound extends JFrame {
-    private LabelPuzzle labelPanel = new LabelPuzzle();
-    private SubmitPanel subPanel = new SubmitPanel();
-    private ConfirmPanel conPanel = new ConfirmPanel();
+public class ComputerRound extends JPanel {
+    private LabelPuzzle labelPanel;
+    private SubmitPanel subPanel;
+    private ConfirmPanel conPanel;
+    private JTextField finalMessage;
 
     public ComputerRound() {
-        this.setLayout(new SpringLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        labelPanel = new LabelPuzzle();
         this.add(labelPanel);
+        subPanel = new SubmitPanel();
         this.add(subPanel);
+        conPanel = new ConfirmPanel();
         this.add(conPanel);
+        finalMessage = new JTextField(30);
+        finalMessage.setEditable(false);
+        this.add(finalMessage);
     }
 
     class LabelPuzzle extends JPanel {
@@ -66,8 +72,8 @@ public class ComputerRound extends JFrame {
         ConfirmPanel(){
             this.setLayout(new GridLayout(0, 1));
             this.trials = new Trial[10];
-            for(Trial putIn: trials){
-                add(putIn = new Trial(1));
+            for(int i = 0; i < 10; i++){
+                add(this.trials[i] = new Trial(i + 1));
             }
         }
 
