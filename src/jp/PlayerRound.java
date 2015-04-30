@@ -15,6 +15,8 @@ public class PlayerRound extends JPanel {
     private ConfirmPanel conPanel;
     private JTextField finalMessage;
     private int guessTimes;
+    private GamePlayer player;
+    private GamePlayer compuer;
 
     PlayerRound(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -26,6 +28,9 @@ public class PlayerRound extends JPanel {
         finalMessage.setEditable(false);
         this.add(finalMessage);
         this.guessTimes = 0;
+        this.player = new GamePlayer();
+        this.compuer = new GamePlayer();
+        this.compuer.setComputerColor();
     }
 
     class SubmitPanel extends JPanel {
@@ -56,6 +61,7 @@ public class PlayerRound extends JPanel {
             subPanel.add(SubmitButton = new JButton("Submit"));
             subPanel.add(BackspaceButton = new JButton("Backspace"));
             this.BackspaceButton.addActionListener(new BackspaceActionListener());
+            this.SubmitButton.addActionListener(new SubmitActionListener());
             this.add(buttonPanel);
             this.add(subPanel);
         }
@@ -108,17 +114,45 @@ public class PlayerRound extends JPanel {
         class BackspaceActionListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField temp = conPanel.trials[guessTimes].field;
-                String tmpString = temp.getText();
-                if(tmpString.length() > 0)
-                    temp.setText(tmpString.substring(0, tmpString.length() - 1));
+                if(guessTimes < 10) {
+                    JTextField temp = conPanel.trials[guessTimes].field;
+                    String tmpString = temp.getText();
+                    if (tmpString.length() > 0)
+                        temp.setText(tmpString.substring(0, tmpString.length() - 1));
+                }
             }
         }
 
         class SubmitActionListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField temp = conPanel.trials[guessTimes].field;
+                if(guessTimes < 10) {
+                    JTextField temp = conPanel.trials[guessTimes].field;
+                    String gottenString = temp.getText();
+                    if (gottenString.length() == 5) {
+                        player.setPlayerColor(temp.getText());
+                        GamePlayer.PinCount count = GamePlayer.compare(compuer, player);
+                        conPanel.trials[guessTimes].bkField.setText("" + count.BKCount);
+                        conPanel.trials[guessTimes].whField.setText("" + count.WHCount);
+                        guessTimes++;
+                        if (count.BKCount == 5) {
+                            finalMessage.setText("YOU WIN!!!!!");
+                            guessTimes = 10;
+                        } else if (guessTimes >= 10) {
+                            finalMessage.setText("Sorry, try Again.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new Frame(),
+                                "Input can't less than 5 characters",
+                                "Invalid Input",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                        JOptionPane.showMessageDialog(new Frame(),
+                                "GAME OVER",
+                                "GAME OVER",
+                                JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
