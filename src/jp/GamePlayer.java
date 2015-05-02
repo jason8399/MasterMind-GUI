@@ -1,7 +1,6 @@
 package jp;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -13,6 +12,7 @@ public class GamePlayer {
     private static int[] next = new int[3125];
     private static int index = 0;
     private char[] playerColor = new char[5];
+    private boolean[] check = new boolean[5];
     static{
         int I,J,K,M,N;
         for (I = 0; I < 5; I++)
@@ -36,20 +36,20 @@ public class GamePlayer {
     public static PinCount compare(GamePlayer A, GamePlayer Q){
         int blackPinCount = 0;
         int whitePinCount = 0;
-        int[] check = new int[5];
-        Arrays.fill(check, 0);
+        Arrays.fill(A.check, false);
+        Arrays.fill(Q.check, false);
         for(int i = 0; i < Q.playerColor.length; i++){
             if(A.playerColor[i] == Q.playerColor[i]) {
-                check[i] = 1;
+                A.check[i] = Q.check[i] = true;
                 blackPinCount++;
             }
         }
         for(int i = 0;i < Q.playerColor.length;i++){
-            if(check[i] == 0) {
-                for (int j = 0; j < A.playerColor.length; j++) {
-                    if (check[j] == 0) {
-                        if (A.playerColor[i] == Q.playerColor[j] && i != j) {
-                            check[i] = 1;
+            if (!(A.check[i] == Q.check[i] && A.check[i])){
+                for (int j = 0; j < Q.playerColor.length;j++){
+                    if (!Q.check[j]){
+                        if (A.playerColor[i] == Q.playerColor[j]){
+                            A.check[j] = true;
                             whitePinCount++;
                         }
                     }
@@ -74,6 +74,14 @@ public class GamePlayer {
             playerColor = colors[temp];
         }while(next[temp] != 0);
         next[temp] = 1;
+        System.out.println(playerColor);
+    }
+
+    public boolean isColorExiest(Character A){
+        for (int i = 0; i < 5; i++){
+            if (playerColor[i] == A) return true;
+        }
+        return false;
     }
 
     static class PinCount{

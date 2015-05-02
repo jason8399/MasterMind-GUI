@@ -16,7 +16,7 @@ public class PlayerRound extends JPanel {
     private JTextField finalMessage;
     private int guessTimes;
     private GamePlayer player;
-    private GamePlayer compuer;
+    private GamePlayer computer;
 
     PlayerRound(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -29,8 +29,8 @@ public class PlayerRound extends JPanel {
         this.add(finalMessage);
         this.guessTimes = 0;
         this.player = new GamePlayer();
-        this.compuer = new GamePlayer();
-        this.compuer.setComputerColor();
+        this.computer = new GamePlayer();
+        this.computer.setComputerColor();
     }
 
     class SubmitPanel extends JPanel {
@@ -131,7 +131,7 @@ public class PlayerRound extends JPanel {
                     String gottenString = temp.getText();
                     if (gottenString.length() == 5) {
                         player.setPlayerColor(temp.getText());
-                        GamePlayer.PinCount count = GamePlayer.compare(compuer, player);
+                        GamePlayer.PinCount count = GamePlayer.compare(player, computer);
                         conPanel.trials[guessTimes].bkField.setText("" + count.BKCount);
                         conPanel.trials[guessTimes].whField.setText("" + count.WHCount);
                         guessTimes++;
