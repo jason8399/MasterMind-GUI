@@ -36,22 +36,20 @@ public class GamePlayer {
     public static PinCount compare(GamePlayer A, GamePlayer Q){
         int blackPinCount = 0;
         int whitePinCount = 0;
-        Arrays.fill(A.check, false);
-        Arrays.fill(Q.check, false);
+        Arrays.fill(A.check, true);
+        Arrays.fill(Q.check, true);
         for(int i = 0; i < Q.playerColor.length; i++){
             if(A.playerColor[i] == Q.playerColor[i]) {
-                A.check[i] = Q.check[i] = true;
+                A.check[i] = Q.check[i] = false;
                 blackPinCount++;
             }
         }
         for(int i = 0;i < Q.playerColor.length;i++){
-            if (!(A.check[i] == Q.check[i] && A.check[i])){
-                for (int j = 0; j < Q.playerColor.length;j++){
-                    if (!Q.check[j]){
-                        if (A.playerColor[i] == Q.playerColor[j]){
-                            A.check[j] = true;
-                            whitePinCount++;
-                        }
+            for (int j = 0; j < Q.playerColor.length;j++){
+                if (Q.check[i] && A.check[j]){
+                    if (A.playerColor[j] == Q.playerColor[i]){
+                        A.check[j] = Q.check[i] =false;
+                        whitePinCount++;
                     }
                 }
             }
